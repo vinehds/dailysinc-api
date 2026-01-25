@@ -1,6 +1,6 @@
 package com.vinehds.dailysinc.repository;
 
-import com.vinehds.dailysinc.model.entitie.Team;
+import com.vinehds.dailysinc.model.entities.Team;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

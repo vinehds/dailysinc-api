@@ -1,4 +1,4 @@
-package com.vinehds.dailysinc.model.entitie;
+package com.vinehds.dailysinc.model.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,8 +13,8 @@ import java.util.List;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "tb_teams")
-public class Team {
+@Table(name = "tb_users")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +22,15 @@ public class Team {
 
     private String name;
 
-    private String description;
+    private String email;
 
-    @OneToMany(mappedBy = "team")
-    private List<User> members = new ArrayList<>();
+    private String password;
+
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Daily> dailies = new ArrayList<>();
+
 }

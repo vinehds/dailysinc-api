@@ -1,6 +1,6 @@
 package com.vinehds.dailysinc.repository;
 
-import com.vinehds.dailysinc.model.entitie.User;
+import com.vinehds.dailysinc.model.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

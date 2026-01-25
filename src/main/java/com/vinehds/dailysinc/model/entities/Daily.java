@@ -1,4 +1,4 @@
-package com.vinehds.dailysinc.model.entitie;
+package com.vinehds.dailysinc.model.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
