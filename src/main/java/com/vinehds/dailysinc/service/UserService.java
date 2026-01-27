@@ -7,6 +7,7 @@ import com.vinehds.dailysinc.service.exception.DataBaseException;
 import com.vinehds.dailysinc.service.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,10 @@ public class UserService {
     private final UserRepository userRepository;
 
     private final TeamService teamService;
+
+    public UserDetails findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 
     public List<User> getAllUsers() {
         try{
