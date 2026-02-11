@@ -5,6 +5,7 @@ import com.vinehds.dailysinc.service.exception.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -12,6 +13,8 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
@@ -53,9 +56,24 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<StandardError> staticResourceNotFound(MethodArgumentNotValidException e, HttpServletRequest request){
+
+        Map<String, String> errors = new HashMap<>();
+
+        e.getBindingResult().getFieldErrors().forEach(error ->
+                errors.put(error.getField(), error.getDefaultMessage())
+        );
+
+        String error = e.getBindingResult().getFieldErrors().getFirst().getDefaultMessage();
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+
+        return ResponseEntity.status(status).body(err);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<StandardError> handleAnyError(Exception e, HttpServletRequest request) {
-        e.printStackTrace();
 
         String error = "internal server error";
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;

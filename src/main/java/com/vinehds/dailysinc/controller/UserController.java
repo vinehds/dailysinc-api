@@ -2,6 +2,7 @@ package com.vinehds.dailysinc.controller;
 
 import com.vinehds.dailysinc.controller.dto.UserDTO;
 import com.vinehds.dailysinc.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDTO> insert(@RequestBody UserDTO dto) {
+    public ResponseEntity<UserDTO> insert(@RequestBody @Valid UserDTO dto) {
 
         UserDTO userInserted = UserDTO.fromEntity(userService.insertUser(dto.toEntity()));
 
@@ -42,7 +43,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> update(@PathVariable Long id, @RequestBody UserDTO obj){
+    public ResponseEntity<UserDTO> update(@PathVariable Long id, @RequestBody @Valid UserDTO obj){
         obj = UserDTO.fromEntity(userService.updateUser(id, obj.toEntity()));
         return ResponseEntity.ok().body(obj);
     }
