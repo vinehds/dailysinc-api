@@ -33,14 +33,6 @@ public class User implements UserDetails {
 
     private UserRole role;
 
-    @ManyToOne
-    @JoinColumn(name = "team_id")
-    private Team team;
-
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Daily> dailies = new ArrayList<>();
-
-
     public User(String email, String password, UserRole userRole) {
         this.password = password;
         this.email = email;

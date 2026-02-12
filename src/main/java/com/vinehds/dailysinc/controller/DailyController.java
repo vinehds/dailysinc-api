@@ -42,7 +42,7 @@ public class DailyController {
 
     @PutMapping("/{id}")
     public ResponseEntity<DailyDTO> update(@PathVariable Long id, @RequestBody DailyDTO obj){
-        obj = DailyDTO.fromEntity(dailyService.updateDaily(id, obj.toEntity()));
+        obj = DailyDTO.fromEntity(dailyService.updateDaily(id, obj));
         return ResponseEntity.ok().body(obj);
     }
 

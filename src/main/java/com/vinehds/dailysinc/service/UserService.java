@@ -18,8 +18,6 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    private final TeamService teamService;
-
     public UserDetails findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
@@ -39,8 +37,6 @@ public class UserService {
 
     public User insertUser(User user) {
         try{
-            Team team = teamService.getTeamById(user.getTeam().getId());
-            user.setTeam(team);
             return userRepository.save(user);
         } catch (Exception e) {
             throw new DataBaseException(e.getMessage());
@@ -75,9 +71,6 @@ public class UserService {
     private void updateData(User entity, User obj) {
         entity.setName(obj.getName());
         entity.setEmail(obj.getEmail());
-
-        Team team =  teamService.getTeamById(obj.getTeam().getId());
-        entity.setTeam(team);
     }
 
 }

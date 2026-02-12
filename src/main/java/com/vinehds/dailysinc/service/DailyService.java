@@ -1,5 +1,6 @@
 package com.vinehds.dailysinc.service;
 
+import com.vinehds.dailysinc.controller.dto.DailyDTO;
 import com.vinehds.dailysinc.model.entities.Daily;
 import com.vinehds.dailysinc.repository.DailyRepository;
 import com.vinehds.dailysinc.service.exception.DataBaseException;
@@ -29,15 +30,15 @@ public class DailyService {
                 .orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
-    public Daily insertDaily(Daily team) {
+    public Daily insertDaily(Daily daily) {
         try{
-            return dailyRepository.save(team);
+            return dailyRepository.save(daily);
         } catch (Exception e) {
             throw new DataBaseException(e.getMessage());
         }
     }
 
-    public Daily updateDaily(Long id, Daily updatedDaily) {
+    public Daily updateDaily(Long id, DailyDTO updatedDaily) {
         try {
             if(!isExists(id)) throw new ResourceNotFoundException(id);
 
@@ -62,10 +63,10 @@ public class DailyService {
         return dailyRepository.existsById(id);
     }
 
-    private void updateData(Daily entity, Daily obj) {
-        entity.setDate(obj.getDate());
-        entity.setLastDayLog(obj.getLastDayLog());
-        entity.setNextDayPlan(obj.getNextDayPlan());
-        entity.setBlockers(obj.getBlockers());
+    private void updateData(Daily entity, DailyDTO obj) {
+        entity.setDate(obj.date());
+        entity.setLastDayLog(obj.lastDayLog());
+        entity.setNextDayPlan(obj.nextDayPlan());
+        entity.setBlockers(obj.blockers());
     }
 }

@@ -42,7 +42,7 @@ public class TeamController {
 
     @PutMapping("/{id}")
     public ResponseEntity<TeamDTO> update(@PathVariable Long id, @RequestBody TeamDTO obj){
-        obj = TeamDTO.fromEntity(teamService.updateTeam(id, obj.toEntity()));
+        obj = TeamDTO.fromEntity(teamService.updateTeam(id, obj));
         return ResponseEntity.ok().body(obj);
     }
 

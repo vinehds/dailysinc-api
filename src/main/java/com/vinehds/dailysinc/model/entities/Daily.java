@@ -21,7 +21,7 @@ public class Daily {
 
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
-    private User author;
+    private Developer author;
 
     private LocalDate date;
 

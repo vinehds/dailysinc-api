@@ -38,7 +38,7 @@ public class TeamService {
        }
    }
 
-    public Team updateTeam(Long id, Team updatedTeam) {
+    public Team updateTeam(Long id, TeamDTO updatedTeam) {
         try {
             if(!isExists(id)) throw new ResourceNotFoundException(id);
 
@@ -66,9 +66,9 @@ public class TeamService {
         return teamRepository.existsById(id);
     }
 
-    private void updateData(Team entity, Team obj) {
-        entity.setName(obj.getName());
-        entity.setDescription(obj.getDescription());
+    private void updateData(Team entity, TeamDTO obj) {
+        entity.setName(obj.name());
+        entity.setDescription(obj.description());
     }
 
 
