@@ -2,7 +2,7 @@ package com.vinehds.dailysinc.controller.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.vinehds.dailysinc.model.entities.Daily;
-import com.vinehds.dailysinc.model.entities.Developer;
+import com.vinehds.dailysinc.model.entities.User;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
@@ -22,7 +22,7 @@ public record DailyDTO(Long id, @JsonFormat(pattern = "dd/MM/yyyy", timezone = "
         daily.setNextDayPlan(this.nextDayPlan);
         daily.setBlockers(this.blockers);
 
-        Developer author = new Developer();
+        User author = new User();
         author.setId(this.authorId);
 
         daily.setAuthor(author);

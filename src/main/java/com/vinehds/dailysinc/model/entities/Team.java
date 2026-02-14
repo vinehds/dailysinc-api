@@ -25,17 +25,6 @@ public class Team {
     private String description;
 
     @OneToMany(mappedBy = "team")
-    private List<Developer> members = new ArrayList<>();
+    private List<User> members = new ArrayList<>();
 
-
-    public void removeMember(Developer dev) {
-        members.remove(dev);
-        dev.setTeam(null);
-    }
-
-    public void clearMembers() {
-        for (Developer dev : new ArrayList<>(this.members)) {
-            removeMember(dev);
-        }
-    }
 }

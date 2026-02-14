@@ -1,5 +1,7 @@
 package com.vinehds.dailysinc.model.entities;
 
+import com.vinehds.dailysinc.model.enums.Department;
+import com.vinehds.dailysinc.model.enums.Seniority;
 import com.vinehds.dailysinc.model.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,13 +27,34 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "email", unique = true)
     private String email;
 
+    @Column(name = "password")
     private String password;
 
+    @Column(name = "role")
     private UserRole role;
+
+    @Column(name = "department")
+    private Department department;
+
+    @Column(name = "seniority")
+    private Seniority seniority;
+
+    @Column(name = "active")
+    private Boolean active;
+
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Daily> dailies = new ArrayList<>();
+
 
     public User(String email, String password, UserRole userRole) {
         this.password = password;

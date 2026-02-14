@@ -54,8 +54,6 @@ public class TeamService {
     public void deleteById(Long id){
         try {
             Team team = getTeamById(id);
-            team.clearMembers();
-
             teamRepository.delete(team);
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException(id);

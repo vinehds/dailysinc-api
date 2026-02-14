@@ -1,9 +1,6 @@
 package com.vinehds.dailysinc.controller.dto;
 
-import com.vinehds.dailysinc.model.entities.Developer;
 import com.vinehds.dailysinc.model.entities.Team;
-
-import java.util.List;
 
 public record TeamDTO(Long id, String name, String description) {
 

@@ -1,5 +1,6 @@
 package com.vinehds.dailysinc.service;
 
+import com.vinehds.dailysinc.controller.dto.UserDTO;
 import com.vinehds.dailysinc.model.entities.Team;
 import com.vinehds.dailysinc.model.entities.User;
 import com.vinehds.dailysinc.repository.UserRepository;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -37,13 +39,17 @@ public class UserService {
 
     public User insertUser(User user) {
         try{
+            var userWithEmail = userRepository.findByEmail(user.getEmail());
+            if(Objects.nonNull(userWithEmail)) {
+                throw new DataBaseException("User with this email already exists");
+            }
             return userRepository.save(user);
         } catch (Exception e) {
             throw new DataBaseException(e.getMessage());
         }
     }
 
-    public User updateUser(Long id, User updatedUser) {
+    public User updateUser(Long id, UserDTO updatedUser) {
         try {
             if(!isExists(id))  throw new ResourceNotFoundException(id);
 
@@ -68,9 +74,21 @@ public class UserService {
         return userRepository.existsById(id);
     }
 
-    private void updateData(User entity, User obj) {
-        entity.setName(obj.getName());
-        entity.setEmail(obj.getEmail());
+    private void updateData(User entity, UserDTO obj) {
+        entity.setName(obj.name());
+        entity.setEmail(obj.email());
+        entity.setActive(obj.active());
+        entity.setRole(obj.role());
+        entity.setSeniority(obj.seniority());
+        entity.setDepartment(obj.department());
+
+        Team team = null;
+        if(Objects.nonNull(obj.teamId())) {
+            team = new Team();
+            team.setId(obj.teamId());
+        }
+
+        entity.setTeam(team);
     }
 
 }
