@@ -25,13 +25,7 @@ public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
 
-    private final UserService userService;
     private final TokenService tokenService;
-
-    // TODO: atualizar dados do usuario logado
-    // TODO:
-    // TODO:
-    // TODO:
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid AuthenticationDTO data) {

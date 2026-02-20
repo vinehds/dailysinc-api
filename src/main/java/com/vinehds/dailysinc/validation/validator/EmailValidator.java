@@ -10,7 +10,7 @@ public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
 
-        if (value == null || value.isBlank()) return false;
+        if (value == null || value.isBlank()) return true;
 
         try {
             InternetAddress email = new InternetAddress(value);

@@ -1,5 +1,6 @@
 package com.vinehds.dailysinc.service;
 
+import com.vinehds.dailysinc.controller.dto.UpdateMeRequestDTO;
 import com.vinehds.dailysinc.controller.dto.UserDTO;
 import com.vinehds.dailysinc.model.entities.Team;
 import com.vinehds.dailysinc.model.entities.User;
@@ -9,6 +10,7 @@ import com.vinehds.dailysinc.service.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +24,31 @@ public class UserService {
 
     public UserDetails findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public UserDetails findUserAuthById(Long id) {
+        return userRepository.findUserDetailsById(id);
+    }
+
+    public User updateMe(Long id, UpdateMeRequestDTO dto){
+        try {
+            if(!isExists(id)) throw new ResourceNotFoundException(id);
+
+            User entity = userRepository.getReferenceById(id);
+
+            entity.setName(Objects.nonNull(dto.name()) ? dto.name() : entity.getName());
+            entity.setEmail(Objects.nonNull(dto.email()) ? dto.email() : entity.getEmail());
+
+            if(Objects.nonNull(dto.password())){
+                String encriptedPassword = new BCryptPasswordEncoder().encode(dto.password());
+                entity.setPassword(encriptedPassword);
+            }
+            entity.setPassword(Objects.nonNull(dto.password()) ? dto.email() : entity.getEmail());
+
+            return userRepository.save(entity);
+        }catch (Exception e) {
+            throw new DataBaseException(e.getMessage());
+        }
     }
 
     public List<User> getAllUsers() {
