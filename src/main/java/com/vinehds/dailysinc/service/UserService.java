@@ -30,6 +30,10 @@ public class UserService {
         return userRepository.findUserDetailsById(id);
     }
 
+    public List<User> findAllUsersActive() {
+        return userRepository.findAllUsersActive();
+    }
+
     public User updateMe(Long id, UpdateMeRequestDTO dto){
         try {
             if(!isExists(id)) throw new ResourceNotFoundException(id);
